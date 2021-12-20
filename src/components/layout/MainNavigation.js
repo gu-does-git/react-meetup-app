@@ -4,8 +4,11 @@ import FavoritesContext from "../../store/favorites-context";
 
 import classes from "./MainNavigation.module.css";
 
+/* component to act as header on the page */
 function MainNavigation() {
+  /* favorites context */
   const favoriteCtx = useContext(FavoritesContext);
+
   return (
     <header className={classes.header}>
       <div className={classes.logo}>React Meetups</div>

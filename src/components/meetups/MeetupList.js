@@ -1,6 +1,7 @@
 import MeetupItem from "./MeetupItem";
 import classes from "./MeetupList.module.css";
 
+/* wrapper component to show the meetup list */
 function MeetupList(props) {
   return (
     <ul className={classes.list}>

@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 import MeetupList from "../components/meetups/MeetupList";
-import ContentLoader from "react-content-loader";
+import MeetupSkeletonList from "../components/meetups/MeetupListSkeleton";
 
 function AllMeetupsPage() {
-  const runCallback = (cb) => {
-    return cb();
-  };
   const [isLoading, setIsloading] = useState(true);
   const [loadedMeetups, setLoadedMeetups] = useState([]);
 
+  /* using the useEffect() with empty array to stop infinite requests */
   useEffect(() => {
-    setIsloading(true);
+    /* fetch the meetups from outside database */
     fetch("https://react-meetup-41bc2-default-rtdb.firebaseio.com/meetups.json")
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        // Transforma os dados antes de atribuir o valor (Array to Object)
+        /* transform the data before adding it */
         const meetups = [];
         for (const key in data) {
           if (Object.hasOwnProperty.call(data, key)) {
@@ -27,55 +25,32 @@ function AllMeetupsPage() {
             meetups.push(element);
           }
         }
+
+        /* setting the data */
         setLoadedMeetups(meetups);
 
+        /* disabling the Loading state */
         setIsloading(false);
       });
   }, []);
 
-  let content;
   if (isLoading) {
-    content = (
+    /* if the HTTP request is loading, show the skeleton list to indicate loading */
+    return (
       <section>
         <h1>All Meetups</h1>
-        {runCallback(() => {
-          const row = [];
-          for (var i = 0; i < 10; i++) {
-            row.push(
-              <ContentLoader
-                key={i}
-                speed={2}
-                height={620}
-                style={{ width: "100%" }}
-              >
-                <rect x="0" y="350" rx="4" ry="4" width="200" height="13" />
-                <rect x="0" y="375" rx="4" ry="4" width="120" height="8" />
-                <rect x="0" y="395" rx="4" ry="4" width="100" height="8" />
-                <rect x="0" y="430" rx="4" ry="4" width="150" height="40" />
-                <rect
-                  x="0"
-                  y="0"
-                  rx="5"
-                  ry="5"
-                  height="320"
-                  style={{ width: "100%" }}
-                />
-              </ContentLoader>
-            );
-          }
-          return row;
-        })}
+        <MeetupSkeletonList count={10} />
       </section>
     );
   } else {
-    content = (
+    /* once the request has loaded, show the loaded Meetups */
+    return (
       <section>
         <h1>All Meetups</h1>
         <MeetupList meetups={loadedMeetups}></MeetupList>
       </section>
     );
   }
-  return content;
 }
 
 export default AllMeetupsPage;

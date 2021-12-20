@@ -1,6 +1,7 @@
 import classes from "./Layout.module.css";
 import MainNavigation from "./MainNavigation";
 
+/* component to act as the default Layout for the pages */
 function Layout(props) {
   return (
     <div>

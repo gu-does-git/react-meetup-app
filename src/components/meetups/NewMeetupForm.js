@@ -3,25 +3,29 @@ import Card from "../ui/Card";
 import classes from "./NewMeetupForm.module.css";
 
 function NewMeetupForm(props) {
+  /* Form field references */
   const titleInputRef = useRef();
   const imageInputRef = useRef();
   const addressInputRef = useRef();
   const descriptionInputRef = useRef();
 
+  /* function to handle the form submission */
   function submitHandler(event) {
+    /* preventing the page reload and html default behavior */
     event.preventDefault();
 
-    const title = titleInputRef.current.value;
-    const image = imageInputRef.current.value;
-    const address = addressInputRef.current.value;
-    const description = descriptionInputRef.current.value;
-
-    const meetupData = {
+    let title = titleInputRef.current.value;
+    let image = imageInputRef.current.value;
+    let address = addressInputRef.current.value;
+    let description = descriptionInputRef.current.value;
+    let meetupData = {
       title,
       image,
       address,
       description,
     };
+
+    /* returning data to prop handler */
     props.onAddMeetup(meetupData);
   }
 
